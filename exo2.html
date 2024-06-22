@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Écouteur d'événement</title>
+    <style>
+        #inputElement.invalid {
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+    <img id="imageElement" src="javascript.png" alt="Example Image">
+    <input id="inputElement" type="text" placeholder="Saisissez une valeur de 9 caractères minimum">
+    <button id="removeClickListener">Supprimer l'écouteur d'événement sur l'image</button>
+
+    <script >
+      document.addEventListener('DOMContentLoaded', (event) => {
+    const imageElement = document.getElementById('imageElement');
+    const inputElement = document.getElementById('inputElement');
+    const removeClickListenerButton = document.getElementById('removeClickListener');
+
+    // Fonction pour afficher un message d'alerte lors du double-clic sur l'image
+    function imageDblClickListener() {
+        alert('Vous avez cliqué deux fois sur l’image');
+    }
+
+    // Ajouter l'écouteur d'événement dblclick à l'image
+    imageElement.addEventListener('dblclick', imageDblClickListener);
+
+    // Ajouter un écouteur d'événement blur à l'élément d'entrée
+    inputElement.addEventListener('blur', () => {
+        const value = inputElement.value.trim();
+        if (value.length < 9) {
+            inputElement.classList.add('invalid');
+        } else {
+            inputElement.classList.remove('invalid');
+        }
+    });
+
+    // Ajouter un écouteur d'événement au bouton pour supprimer l'écouteur dblclick de l'image
+    removeClickListenerButton.addEventListener('click', () => {
+        imageElement.removeEventListener('dblclick', imageDblClickListener);
+        alert('L\'écouteur d\'événement a été supprimé de l\'image');
+    });
+});
+
+    </script>
+</body>
+</html>
