@@ -1,0 +1,12 @@
+html
+└── head
+    └── meta
+    └── title ("Ceci est le titre de la page")
+└── body
+    └── ul
+        └── li ("1er élément")
+        └── li
+            └── text node ("2ème élément")
+            └── p ("paragraphe")
+            └── a ("Lien")
+        └── li ("3ème élément")
