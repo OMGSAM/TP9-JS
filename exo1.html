@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire Étudiant</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulaire Étudiant</h1>
+    <form id="studentForm" onsubmit="return ajouterEtudiant()">
+        <label for="fullName">Nom complet:</label>
+        <input type="text" id="fullName" name="fullName" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="subject">Nom de la matière:</label>
+        <input type="text" id="subject" name="subject" required><br><br>
+        <label for="grade1">Note du contrôle 1 (sur 20):</label>
+        <input type="number" id="grade1" name="grade1" min="0" max="20" required><br><br>
+        <label for="grade2">Note du contrôle 2 (sur 20):</label>
+        <input type="number" id="grade2" name="grade2" min="0" max="20" required><br><br>
+        <label for="coefficient">Coefficient de la matière:</label>
+        <input type="number" id="coefficient" name="coefficient" min="1" required><br><br>
+        <input type="submit" value="Ajouter Étudiant">
+    </form>
+    
+    <table id="studentsTable">
+        <thead>
+            <tr>
+                <th>Nom complet</th>
+                <th>Email</th>
+                <th>Nom de la matière</th>
+                <th>Note du contrôle 1</th>
+                <th>Note du contrôle 2</th>
+                <th>Coefficient</th>
+                <th>Moyenne</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script >
+      function ajouterEtudiant() {
+    const fullName = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim();
+    const grade1 = parseFloat(document.getElementById('grade1').value.trim());
+    const grade2 = parseFloat(document.getElementById('grade2').value.trim());
+    const coefficient = parseInt(document.getElementById('coefficient').value.trim(), 10);
+
+    const namePattern = /^[A-Z][a-z]*\s[A-Z][a-z]*$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const subjectPattern = /^[A-Za-z\s]+$/;
+
+    if (!namePattern.test(fullName)) {
+        alert('Le nom complet doit contenir au moins deux mots, chaque mot commençant par une lettre majuscule.');
+        return false;
+    }
+
+    if (!emailPattern.test(email)) {
+        alert("L'adresse email n'est pas valide.");
+        return false;
+    }
+
+    if (!subjectPattern.test(subject)) {
+        alert("Le nom de la matière doit être un texte valide sans caractères spéciaux.");
+        return false;
+    }
+
+    if (isNaN(grade1) || grade1 < 0 || grade1 > 20) {
+        alert('La note du contrôle 1 doit être un nombre compris entre 0 et 20.');
+        return false;
+    }
+
+    if (isNaN(grade2) || grade2 < 0 || grade2 > 20) {
+        alert('La note du contrôle 2 doit être un nombre compris entre 0 et 20.');
+        return false;
+    }
+
+    if (isNaN(coefficient) || coefficient <= 0) {
+        alert('Le coefficient doit être un nombre entier positif.');
+        return false;
+    }
+
+    const moyenne = (grade1 + grade2) / 2;
+
+    const table = document.getElementById('studentsTable').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+
+    newRow.insertCell(0).innerText = fullName;
+    newRow.insertCell(1).innerText = email;
+    newRow.insertCell(2).innerText = subject;
+    newRow.insertCell(3).innerText = grade1;
+    newRow.insertCell(4).innerText = grade2;
+    newRow.insertCell(5).innerText = coefficient;
+    newRow.insertCell(6).innerText = moyenne.toFixed(2);
+
+    document.getElementById('studentForm').reset();
+
+    return false;
+}
+
+    </script>
+</body>
+</html>
